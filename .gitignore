@@ -1,0 +1,6 @@
+build*/tmp
+build*/deploy
+build*/cache
+build*/downloads
+build*/sstate-cache
+build*/bitbake-cookerdaemon.log
