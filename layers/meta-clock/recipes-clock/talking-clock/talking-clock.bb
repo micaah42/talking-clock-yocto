@@ -3,32 +3,49 @@ HOMEPAGE = "https://github.com/micaah42"
 
 LICENSE = "CLOSED"
 
-inherit cmake_qt5
-
-IMAGE_FEATURES += " allow-root-login"
+inherit qt6-cmake systemd
 
 DEPENDS += "\
+    qtbase \
+    qttools \
     qtmultimedia \
     qtwebsockets \
-    qtquickcontrols2 \
+    qtdeclarative \
+    qtdeclarative-native \
+    nodejs-native \
 "
 
-SRC_URI = "git://git@github.com/micaah42/talking-clock.git;protocol=ssh;branch=main"
+RDEPENDS:${PN} = "\
+    qtbase \
+    qttools \
+    qtmultimedia \
+    qtwebsockets \
+    qtdeclarative \
+"
+
+SRC_URI = "git://git@github.com/micaah42/talking-clock.git;protocol=https;branch=main"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
+
+do_install:append() {
+    install -d ${D}/${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/git/clockd/clockd.service ${D}/${systemd_unitdir}/system/
+}
+
+SYSTEMD_SERVICE:${PN} = "clockd.service"
 
 # angular application
 
 do_compile:append() {
     # compile and install node modules in source directory
     cd ${WORKDIR}/git/web
-    npm install
+    npm clean-install
     npm run build
 }
 
-do_install:append() {
-    install -d ${D}/${datadir}/clockd/www
-    install -m 0644 "${WORKDIR}/git/web/dist/*" "${D}/${datadir}/clockd/www"
-}
+FILES:${PN} += "\
+    /usr/share/clockd/* \
+    /etc/systemd/system/*.service \
+"
 

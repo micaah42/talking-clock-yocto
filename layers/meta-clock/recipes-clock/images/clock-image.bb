@@ -1,19 +1,30 @@
 SUMMARY = "RPI clock image with video & audio"
 HOMEPAGE = "https://github.com/micaah42"
 
-IMAGE_FEATURES:append = " ssh-server-openssh allow-root-login"
+inherit extrausers
+PASSWD = "\$5\$MmNPZGVhJ3FVFmpe\$B7tdUZIadisgPyVDeb9IA2tVpcTGVLK1fv9GhOK0/u6"
+EXTRA_USERS_PARAMS = "\
+    usermod -p '${PASSWD}' root; \
+"
 
 inherit core-image
-inherit populate_sdk_qt5
-require recipes-extended/images/core-image-full-cmdline.bb
+inherit populate_sdk_qt6
+require recipes-core/images/core-image-base.bb
 
-QT5 = " \
+IMAGE_FEATURES:append = "\
+    ssh-server-openssh \
+    allow-root-login \
+    hwcodecs \
+    lic-pkgs \
+    splash \
+"
+
+QT6 = " \
     qtbase \
     qtmultimedia \
     qtwebsockets \
-    qtquickcontrols2 \
+    qtdeclarative \
     qtvirtualkeyboard \
-    qtgraphicaleffects \
 "
 
 WIFI = "\
@@ -30,21 +41,39 @@ PYTHON = " \
     python3-requests \
 "
 
+ALSA = " \
+    alsa-lib \
+    alsa-tools \
+    alsa-plugins \
+"
+
+PULSEAUDIO = " \
+    pulseaudio \
+    pulseaudio-server \
+    pulseaudio-client-conf-sato \
+    pulseaudio-misc \
+"
+
 MISC = " \
+    htop \
     tzdata \
     openssl \
     openssh \
     apache2 \
+    rpi-gpio \
     systemd-analyze \
     systemd-bash-completion \
 "
 
 IMAGE_INSTALL += " \
-    ${QT5} \
+    ${QT6} \
+    ${ALSA} \
+    ${PULSEAUDIO} \
     ${MISC} \
     ${PYTHON} \
     ${MACHINE_EXTRA_RRECOMMENDS} \
     \
+    init-clock \
     talking-clock \
 "
 

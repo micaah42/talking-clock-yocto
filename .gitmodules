@@ -2,10 +2,6 @@
 	path = poky
 	url = git://git.yoctoproject.org/poky
 	branch = kirkstone
-[submodule "layers/meta-qt5"]
-	path = layers/meta-qt5
-	url = https://github.com/meta-qt5/meta-qt5.git
-	branch = kirkstone
 [submodule "layers/meta-raspberrypi"]
 	path = layers/meta-raspberrypi
 	url = https://github.com/agherzan/meta-raspberrypi.git
@@ -14,3 +10,11 @@
 	path = layers/meta-openembedded
 	url = https://github.com/openembedded/meta-openembedded.git
 	branch = kirkstone
+[submodule "layers/meta-qt6"]
+	path = layers/meta-qt6
+	url = git://code.qt.io/yocto/meta-qt6.git
+	branch = 6.5.3
+[submodule "layers/meta-kf6"]
+	path = layers/meta-kf6
+	url = https://invent.kde.org/packaging/yocto-meta-kf6.git
+	branch = master

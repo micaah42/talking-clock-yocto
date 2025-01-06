@@ -1,0 +1,9 @@
+[Unit]
+Description=This runs a script on boot to
+
+[Service]
+Type=simple
+ExecStart=/bin/sh /usr/share/clockd/init-clock.sh
+
+[Install]
+WantedBy=multi-user.target

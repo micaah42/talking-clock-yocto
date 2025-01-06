@@ -1,3 +1,20 @@
-PACKAGECONFIG:append = " eglfs gles2"
-PACKAGECONFIG:remove = " gstreamer"
-OPENSSL_LINKING_MODE = "-linked"
+# PACKAGECONFIG:append:rpi = " \
+#     accessibility \
+#     egl \
+#     eglfs \
+#     fontconfig \ 
+#     gles2 \
+#     linuxfb \
+#     tslib \ 
+#     gbm \ 
+#     kms \
+# "
+
+
+# EXTRA_OECMAKE += "\
+#     -DQT_FEATURE_egl=ON \
+#     -DQT_FEATURE_eglfs=ON \
+#     -DQT_FEATURE_opengl=ON \
+#     -DQT_FEATURE_opengles2=ON \
+#     -DQT_FEATURE_accessibility=ON \
+# "

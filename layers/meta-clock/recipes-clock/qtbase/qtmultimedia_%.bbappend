@@ -1,0 +1,1 @@
+PACKAGECONFIG = "ffmpeg pulseaudio qml"
