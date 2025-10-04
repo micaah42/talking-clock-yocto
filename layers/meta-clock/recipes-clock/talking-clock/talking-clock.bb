@@ -13,6 +13,9 @@ DEPENDS += "\
     qtdeclarative \
     qtdeclarative-native \
     nodejs-native \
+    networkmanager-qt \
+    ws2811 \
+    tiny-orm \
 "
 
 RDEPENDS:${PN} = "\
@@ -21,19 +24,32 @@ RDEPENDS:${PN} = "\
     qtmultimedia \
     qtwebsockets \
     qtdeclarative \
+    ws2811 \
+    networkmanager \
+    networkmanager-qt \
+    tiny-orm \
+    tensorflow \
+    tensorflow-lite \
 "
 
-SRC_URI = "git://git@github.com/micaah42/talking-clock.git;protocol=https;branch=main"
+SRC_URI = "gitsm://git@github.com/micaah42/talking-clock.git;protocol=https;branch=main"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
-do_install:append() {
-    install -d ${D}/${systemd_unitdir}/system
-    install -m 0644 ${WORKDIR}/git/clockd/clockd.service ${D}/${systemd_unitdir}/system/
+do_configure:prepend() {
+  cd ${WORKDIR}/git
+  git submodule update --init --recursive
+  cd -
 }
 
-SYSTEMD_SERVICE:${PN} = "clockd.service"
+#do_install:append() {
+#    install -d ${D}/${systemd_unitdir}/system
+#    install -m 0644 ${WORKDIR}/git/clockd/clockd.service ${D}/${systemd_unitdir}/system/
+#    install -m 0644 ${WORKDIR}/git/clockd/pamon.service ${D}/${systemd_unitdir}/system/
+#}
+
+SYSTEMD_SERVICE:${PN} = "clockd.service pamon.service"
 
 # angular application
 

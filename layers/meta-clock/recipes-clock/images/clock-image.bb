@@ -1,15 +1,11 @@
 SUMMARY = "RPI clock image with video & audio"
 HOMEPAGE = "https://github.com/micaah42"
 
-inherit extrausers
-PASSWD = "\$5\$MmNPZGVhJ3FVFmpe\$B7tdUZIadisgPyVDeb9IA2tVpcTGVLK1fv9GhOK0/u6"
-EXTRA_USERS_PARAMS = "\
-    usermod -p '${PASSWD}' root; \
-"
 
 inherit core-image
 inherit populate_sdk_qt6
 require recipes-core/images/core-image-base.bb
+
 
 IMAGE_FEATURES:append = "\
     ssh-server-openssh \
@@ -17,6 +13,12 @@ IMAGE_FEATURES:append = "\
     hwcodecs \
     lic-pkgs \
     splash \
+"
+
+EXTRA_IMAGE_FEATURES:append = "\
+    allow-empty-password \ 
+    empty-root-password \
+    allow-root-login \
 "
 
 QT6 = " \
@@ -56,6 +58,7 @@ PULSEAUDIO = " \
 
 MISC = " \
     htop \
+    samba \
     tzdata \
     openssl \
     openssh \
@@ -85,4 +88,9 @@ set_local_timezone() {
 
 ROOTFS_POSTPROCESS_COMMAND += " \
     set_local_timezone ; \
+"
+
+TOOLCHAIN_TARGET_TASK:append = "\
+    range-v3-dev \
+    tabulate-dev \
 "

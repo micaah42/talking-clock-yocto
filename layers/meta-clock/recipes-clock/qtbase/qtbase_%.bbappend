@@ -9,7 +9,7 @@
 #     gbm \ 
 #     kms \
 # "
-
+PACKAGECONFIG:append = "sql-sqlite"
 
 # EXTRA_OECMAKE += "\
 #     -DQT_FEATURE_egl=ON \
